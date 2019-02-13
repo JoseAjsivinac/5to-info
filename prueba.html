@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Registro de Datos</title>
+	<link rel="stylesheet" type="text/css"  href="css/materialize.css">
+</head>
+<body>
+	<div class="row">
+		<div class="col-md-4"> </div>
+		<!---inicio de culumnas-->
+		<div class="col-md-4"></div>
+			<center><h1>propietario</h1></center>
+			<form method="POST" action="index.php">
+				<!---inicio de programacon de etiquetas-->
+				<div class="form-group">
+					<label for="nombre">Nombre</label>
+					<input type="text" name="nombre" class="form-control" id="nombre">
+				</div>
+
+				<div class="form-group">
+					<label for="doc">Documeto</label>
+					<input type="text" name="doc" class="form-control" id="doc">
+				</div>
+				
+				<div class="form-group">
+					<label for="dir">Direccion</label>
+					<input type="text" name="dir" class="form-control" id="dir">
+				</div>
+				<div class="form-group">
+					<label for="tel">telefono</label>
+					<input type="text" name="tel" class="form-control" id="tel">
+				</div>
+				<center>
+					<input type="submit"  value="Registrar"	 	name="btn_registrar" 	class="btn btn-success">
+					<input type="submit"  value="Consulta"  	name="btn_consultar" 	class="btn btn-primary">
+					<input type="submit"  value="Actualizar"	name="btn_actualizar" 	class="btn btn-info">
+					<input type="submit"  value="Eliminar"		name="btn_eliminar" 	class="btn btn-danger">
+				</center>
+			</form>
+			<?php 
+			include("abrir_conexion.php");
+			$doc 	= "";
+			$nombre ="";
+			$dir 	="";
+			$tel 	="";
+			//boton registrar
+			if (isset($_POST['btn_registrar'])) {
+				//echo "presiono el boton registrar";
+			//capura de datos de formulario
+			$doc 	=$_POST['doc'];
+			$nombre =$_POST['nombre'];
+			$dir 	=$_POST['dir'];
+			$tel 	=$_POST['tel'];
+			
+			if ($doc==""||$nombre=""||$dir=="") {
+				echo "los campos son obligartorios";
+			}
+			else{
+				mysqli_query($conexion," INSERT INTO $tabla_db1(doc,nombre,dir,tel) value('$doc','$nombre','$dir','$tel')");
+			}
+
+			}
+
+				if (isset($_POST['btn_consultar'])) {
+				//echo "presiono el boton Consultar";
+					$documeto = $_POST['doc'];
+					$existe = 0;
+					if ($documeto=="") {
+						echo "el campo documeto es obligatorio";
+					}else{
+						$resultado=mysqli_query($conexion,"SELECT * FROM $tabla_db1 where documeto='$documeto' ");
+					}
+					while ($conexion=mysqli_fetch_array($resultado)) {
+						echo $conexion['documeto'],"<br>";
+						echo $conexion['nombre'],"<br>";
+						echo $conexion['direccion'],"<br>";
+						echo $conexion['telefono'],"<br>";
+						$existe++;
+						# code...
+					}
+					if ($existe==0) {
+						echo "El documeto no existe";
+					}
+			}
+
+				if (isset($_POST['btn_actualizar'])) {
+					$documeto=$_POST['doc'];
+					$nombre=$_POST['nombre'];
+					$direccion=$_POST['dir'];
+					$telefono=$_POST['tel'];
+					if ($documeto==""||$nombre==""||$dir=="") {
+						echo "los campos son obligartorios";
+					}
+					else{
+						$_UPDATA_SQL="UPDATE $tabla_db1 set 
+						documeto='doc',
+						nombre='$nombre',
+						direccion='$dir',
+						telefono='$tel'
+						where documeto ='doc'";
+						mysqli_query($conexion,$_UPDATA_SQL);
+					}
+				//echo "presiono el boton Actualizar";
+			}
+				if (isset($_POST['btn_eliminar'])) {
+					$documeto = $_POST['doc'];
+					$existe=0;
+					if ($documeto=="") {
+						echo "El documeto es obligatorio ingresarlo";
+					}
+					else{
+						$resultado=mysqli_query($conexion,"SELECT * FROM $tabla_db1 where documeto ='doc');
+							while{($consulta=mysql_fetch_array($resultado))
+							$existe++;
+							}
+							if($consulta==0){
+							echo "el documeto no existe";
+							}
+							else{
+								$DELETE_SQL="DELETE FROM $tabla_db1 where documeto='doc'"
+								mysql_query($conexion)
+							}
+					}
+			}
+			?>
+	</div>
+
+</body>
+</html>
