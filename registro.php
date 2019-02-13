@@ -3,6 +3,7 @@
 <head>
 	<title>registro  de datos</title>
 	<link rel="stylesheet" type="text/css" href="css/materialize.css">
+	<h1><h1>Registro
 </head>
 
 <body>
